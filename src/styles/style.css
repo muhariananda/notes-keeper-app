@@ -83,6 +83,7 @@ main {
   text-align: center;
   color: var(--on-background-grey);
 }
+
 .note-item {
   padding: 16px;
   border-radius: 8px;
@@ -111,7 +112,7 @@ main {
 
 .detail-page {
   margin: 0 auto;
-  margin-top: 32px; 
+  margin-top: 32px;
   width: 90%;
 }
 
@@ -131,7 +132,9 @@ main {
   font-size: 18px;
 }
 
-.detail-page__action, .homepage__action, .add-new-page__action {
+.detail-page__action,
+.homepage__action,
+.add-new-page__action {
   position: fixed;
   display: flex;
   gap: 16px;
@@ -204,7 +207,8 @@ main {
   color: var(--on-background-grey);
 }
 
-.toggle-theme, .toggle-locale {
+.toggle-theme,
+.toggle-locale {
   background-color: transparent;
   border: 0;
   cursor: pointer;
@@ -222,16 +226,19 @@ main {
   font-size: 28px;
 }
 
-.input-login, .input-register {
+.input-login,
+.input-register {
   margin: 32px 0;
 }
 
-.input-login label, .input-register label {
+.input-login label,
+.input-register label {
   font-size: 24px;
   font-weight: lighter;
 }
 
-.input-login input, .input-register input {
+.input-login input,
+.input-register input {
   font-size: 18px;
   font-family: 'Inter', sans-serif;
   margin-top: 8px;
@@ -245,7 +252,8 @@ main {
   color: var(--on-background)
 }
 
-.input-login button, .input-register button {
+.input-login button,
+.input-register button {
   font-family: 'Inter', sans-serif;
   font-weight: bold;
   font-size: 24px;
@@ -269,12 +277,35 @@ main {
   color: var(--on-background);
 }
 
+.not-found-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.not-found-page .icon {
+  font-size: 4em;
+  color: gray;
+}
+
+.not-found-page h1 {
+  font-size: 5em;
+}
+
+.not-found-page p {
+  margin-top: 24px;
+  font-size: 0.8em;
+  color: gray;
+}
+
 @media screen and (min-width: 650px) {
   .notes-list {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .detail-page__title { 
+  .detail-page__title {
     font-size: 64px;
   }
 }
