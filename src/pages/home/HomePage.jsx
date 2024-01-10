@@ -1,70 +1,50 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import EmptyMessage from "../../components/EmptyMessage";
 import NotesList from "../../components/NotesList";
 import SearchBar from "../../components/SearchBar";
-import HomePageAction from "../../components/HomePageAction";
-import { getActiveNotes } from "../../utils/local-data";
+import HomePageAction from "./components/HomePageAction";
+import { getActiveNotes } from "../../utils/network-data";
 
-class HomePage extends React.Component {
-  constructor(props) {
-    super(props);
+const HomePage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [notes, setNotes] = useState([]);
+  const [keyword, setKeyword] = useState(() => {
+    return searchParams.get("keyword") || "";
+  });
 
-    this.state = {
-      notes: getActiveNotes(),
-      keyword: props.defaultKeyword || "",
-    };
-  }
+  useEffect(() => {
+    getActiveNotes().then(({ data }) => {
+      setNotes(data);
+    });
+  }, []);
 
-  handleKeywordChange = (keyword) => {
-    this.setState({ keyword });
-    this.props.keywordChange(keyword);
+  const handleKeywordChange = (keyword) => {
+    setKeyword(keyword);
+    setSearchParams({ keyword });
   };
 
-  render() {
-    const { notes, keyword } = this.state;
-    const isNotesEmpty = notes.length === 0;
-    const filteredNotes = notes.filter((note) => {
-      return note.title.toLowerCase().includes(keyword.toLowerCase());
-    });
-
-    return (
-      <section className="homepage">
-        <h2>Catatan Aktif</h2>
-
-        <SearchBar keyword={keyword} keywordChange={this.handleKeywordChange} />
-
-        {!isNotesEmpty ? (
-          <NotesList notes={filteredNotes} />
-        ) : (
-          <EmptyMessage message={"Tidak ada catatan"} />
-        )}
-
-        <HomePageAction />
-      </section>
-    );
-  }
-}
-
-HomePage.propType = {
-  defaultKeyword: PropTypes.string,
-  keywordChange: PropTypes.func.isRequired,
-};
-
-const HomePageWrapper = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const keyword = searchParams.get("keyword");
-
-  function changeSearchParams(keyword) {
-    setSearchParams({ keyword });
-  }
+  const isNotesEmpty = notes.length === 0;
+  const filteredNotes = notes.filter((note) => {
+    return note.title.toLowerCase().includes(keyword.toLowerCase());
+  });
 
   return (
-    <HomePage defaultKeyword={keyword} keywordChange={changeSearchParams} />
+    <section className="homepage">
+      <h2>Catatan Aktif</h2>
+
+      <SearchBar keyword={keyword} keywordChange={handleKeywordChange} />
+
+      {!isNotesEmpty ? (
+        <NotesList notes={filteredNotes} />
+      ) : (
+        <EmptyMessage message={"Tidak ada catatan"} />
+      )}
+
+      <HomePageAction />
+    </section>
   );
 };
 
-export default HomePageWrapper;
+export default HomePage;

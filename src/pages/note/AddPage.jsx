@@ -1,63 +1,42 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import AddNewPageInput from "../../components/AddNewPageInput";
-import AddNewPageAction from "../../components/AddNewPageAction";
-import { addNote } from "../../utils/local-data";
+import AddNewPageInput from "./components/AddNewPageInput";
+import AddNewPageAction from "./components/AddNewPageAction";
+import { addNote } from "../../utils/network-data";
 
-class AddPage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      title: "",
-      body: "",
-    };
-  }
-
-  handleTitleChange = (event) => {
-    const { value } = event.target;
-    this.setState({ title: value });
-  };
-
-  handleInputBody = (event) => {
-    const { innerHTML } = event.target;
-    this.setState({ body: innerHTML });
-  };
-
-  handleAddNote = () => {
-    this.props.addNote(this.state);
-  };
-
-  render() {
-    return (
-      <section className="add-new-page">
-        <AddNewPageInput
-          title={this.state.title}
-          titleChange={this.handleTitleChange}
-          inputBody={this.handleInputBody}
-        />
-
-        <AddNewPageAction addNote={this.handleAddNote} />
-      </section>
-    );
-  }
-}
-
-AddPage.propTypes = {
-  addNote: PropTypes.func.isRequired,
-};
-
-const AddPageWrapper = () => {
+const AddPage = () => {
   const navigate = useNavigate();
 
-  function handleAddNote({ title, body }) {
-    addNote({ title, body });
-    navigate("/");
-  }
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
 
-  return <AddPage addNote={handleAddNote} />;
+  const handleTitleChange = (event) => {
+    const { value } = event.target;
+    setTitle(value);
+  };
+
+  const handleBodyChange = (event) => {
+    const { innerHTML } = event.target;
+    setBody(innerHTML);
+  };
+
+  const handleAddNote = async () => {
+    await addNote({ title, body });
+    navigate("/");
+  };
+
+  return (
+    <section className="add-new-page">
+      <AddNewPageInput
+        title={title}
+        titleChange={handleTitleChange}
+        inputBody={handleBodyChange}
+      />
+
+      <AddNewPageAction addNote={handleAddNote} />
+    </section>
+  );
 };
 
-export default AddPageWrapper;
+export default AddPage;

@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 
 import AddPage from "./pages/note/AddPage";
 import ArchivesPage from "./pages/archives/ArchivesPage";
-import DetailPage from "./pages/note/DetailPage";
+import DetailsPage from "./pages/note/DetailsPage";
 import HomePage from "./pages/home/HomePage";
 import NoteHeader from "./components/NoteHeader";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -46,7 +46,7 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/archives" element={<ArchivesPage />} />
             <Route path="/notes/new" element={<AddPage />} />
-            <Route path="/notes/:id" element={<DetailPage />} />
+            <Route path="/notes/:id" element={<DetailsPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
