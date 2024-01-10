@@ -3,16 +3,16 @@ import PropTypes from "prop-types";
 import parser from "html-react-parser";
 import { useParams, useNavigate } from "react-router-dom";
 
-import DetailPageAction from "../components/DetailPageAction";
-import NotFoundPage from "./NotFoundPage";
-import { showFormattedDate } from "../utils";
+import DetailPageAction from "../../components/DetailPageAction";
+import NotFoundPage from "../NotFoundPage";
+import { showFormattedDate } from "../../utils";
 
 import {
   archiveNote,
   deleteNote,
   getNote,
   unarchiveNote,
-} from "../utils/local-data";
+} from "../../utils/local-data";
 
 const DetailPage = ({ id, onArchive, onUnarchive, onDelete }) => {
   const note = getNote(id);

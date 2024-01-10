@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-import AddNewPageInput from "../components/AddNewPageInput";
-import AddNewPageAction from "../components/AddNewPageAction";
-import { addNote } from "../utils/local-data";
+import AddNewPageInput from "../../components/AddNewPageInput";
+import AddNewPageAction from "../../components/AddNewPageAction";
+import { addNote } from "../../utils/local-data";
 
 class AddPage extends React.Component {
   constructor(props) {

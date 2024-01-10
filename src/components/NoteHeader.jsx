@@ -1,13 +1,22 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { MdLogout } from "react-icons/md";
 
-const NoteHeader = () => (
+const NoteHeader = ({ authedUser, logout }) => (
   <header>
     <h1>
       <Link to="/">Aplikasi Catatan</Link>
     </h1>
 
-    <Navigation />
+    {authedUser && <Navigation />}
+
+    {authedUser && (
+      <button className="button-logout" type="button" onClick={() => logout()}>
+        <MdLogout />
+        {authedUser.name}
+      </button>
+    )}
   </header>
 );
 
@@ -20,5 +29,10 @@ const Navigation = () => (
     </ul>
   </nav>
 );
+
+NoteHeader.propTypes = {
+  authedUser: PropTypes.object,
+  logout: PropTypes.func.isRequired,
+};
 
 export default NoteHeader;

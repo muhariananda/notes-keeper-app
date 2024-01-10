@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useSearchParams } from "react-router-dom";
 
-import SearchBar from "../components/SearchBar";
-import NotesList from "../components/NotesList";
-import EmptyMessage from "../components/EmptyMessage";
-import { getArchivedNotes } from "../utils/local-data";
+import SearchBar from "../../components/SearchBar";
+import NotesList from "../../components/NotesList";
+import EmptyMessage from "../../components/EmptyMessage";
+import { getArchivedNotes } from "../../utils/local-data";
 
 class ArchivesPage extends React.Component {
   constructor(props) {

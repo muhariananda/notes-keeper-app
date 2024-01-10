@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useSearchParams } from "react-router-dom";
 
-import EmptyMessage from "../components/EmptyMessage";
-import NotesList from "../components/NotesList";
-import SearchBar from "../components/SearchBar";
-import HomePageAction from "../components/HomePageAction";
-import { getActiveNotes } from "../utils/local-data";
+import EmptyMessage from "../../components/EmptyMessage";
+import NotesList from "../../components/NotesList";
+import SearchBar from "../../components/SearchBar";
+import HomePageAction from "../../components/HomePageAction";
+import { getActiveNotes } from "../../utils/local-data";
 
 class HomePage extends React.Component {
   constructor(props) {
