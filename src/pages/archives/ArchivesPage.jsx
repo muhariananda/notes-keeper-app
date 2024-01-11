@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
+import Loader from "../../components/Loader";
 import SearchBar from "../../components/SearchBar";
 import NotesList from "../../components/NotesList";
 import EmptyMessage from "../../components/EmptyMessage";
@@ -8,15 +9,26 @@ import { getArchivedNotes } from "../../utils/network-data";
 
 const ArchivesPage = () => {
   const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const [searchParams, setSearchParams] = useSearchParams();
-  const [keyword, setKeyword] = useState(() => {
-    return searchParams.get("keyword") || "";
-  });
+  const [keyword, setKeyword] = useState(
+    () => searchParams.get("keyword") || ""
+  );
 
   useEffect(() => {
-    getArchivedNotes().then(({ data }) => {
-      setNotes(data);
-    });
+    const fetchArchiveNotes = async () => {
+      try {
+        const { data } = await getArchivedNotes();
+        setNotes(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchArchiveNotes();
   }, []);
 
   const handleKeywordChange = (keyword) => {
@@ -34,7 +46,9 @@ const ArchivesPage = () => {
       <h2>Catatan Arsip</h2>
       <SearchBar keyword={keyword} keywordChange={handleKeywordChange} />
 
-      {!isNotesEmpty ? (
+      {loading ? (
+        <Loader />
+      ) : !isNotesEmpty ? (
         <NotesList notes={filteredNotes} />
       ) : (
         <EmptyMessage message={"Arsip kosong"} />

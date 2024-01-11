@@ -10,10 +10,13 @@ import NotFoundPage from "./pages/NotFoundPage";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import { getUserLogged, putAccessToken } from "./utils/network-data";
+import useTheme from "./hooks/useTheme";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 const App = () => {
   const [authedUser, setAuthedUser] = useState(null);
   const [initializing, setInitializing] = useState(true);
+  const [theme, toggleTheme] = useTheme("dark");
 
   useEffect(() => {
     getUserLogged().then(({ data }) => {
@@ -38,30 +41,32 @@ const App = () => {
   }
 
   return (
-    <div className="app-container">
-      <NoteHeader authedUser={authedUser} logout={onLogout} />
-      {authedUser ? (
-        <main>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/archives" element={<ArchivesPage />} />
-            <Route path="/notes/new" element={<AddPage />} />
-            <Route path="/notes/:id" element={<DetailsPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </main>
-      ) : (
-        <main>
-          <Routes>
-            <Route
-              path="/*"
-              element={<LoginPage loginSuccess={onLoginSuccess} />}
-            />
-            <Route path="/register" element={<RegisterPage />} />
-          </Routes>
-        </main>
-      )}
-    </div>
+    <ThemeProvider value={{ theme, toggleTheme }}>
+      <div className="app-container">
+        <NoteHeader authedUser={authedUser} logout={onLogout} />
+        {authedUser ? (
+          <main>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/archives" element={<ArchivesPage />} />
+              <Route path="/notes/new" element={<AddPage />} />
+              <Route path="/notes/:id" element={<DetailsPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </main>
+        ) : (
+          <main>
+            <Routes>
+              <Route
+                path="/*"
+                element={<LoginPage loginSuccess={onLoginSuccess} />}
+              />
+              <Route path="/register" element={<RegisterPage />} />
+            </Routes>
+          </main>
+        )}
+      </div>
+    </ThemeProvider>
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import parser from "html-react-parser";
 import { useParams, useNavigate } from "react-router-dom";
-
+import Loader from "../../components/Loader";
 import DetailPageAction from "./components/DetailPageAction";
 import NotFoundPage from "../NotFoundPage";
 import { showFormattedDate } from "../../utils";
@@ -17,13 +17,21 @@ const DetailsPage = () => {
   const navigate = useNavigate();
 
   const [note, setNote] = useState(null);
-  const [initializing, setInitializing] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getNote(id).then(({ data }) => {
-      setNote(data);
-      setInitializing(false);
-    });
+    const fecthNote = async () => {
+      try {
+        const { data } = await getNote(id);
+        setNote(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fecthNote();
   }, [id]);
 
   const handleDelete = async () => {
@@ -41,33 +49,34 @@ const DetailsPage = () => {
     navigate("/");
   };
 
-  if (initializing) {
-    return null;
-  }
-
-  if (!note) {
-    return (
-      <NotFoundPage
-        message={"Catatan yang ingin ditampilkan tidak ditemukan"}
-      />
-    );
-  }
-
-  const parsedBody = parser(note.body);
-  const formattedDate = showFormattedDate(note.createdAt);
-
   return (
     <section className="detail-page">
-      <h3 className="detail-page__title">{note.title}</h3>
-      <p className="detail-page__createdAt">{formattedDate}</p>
-      <div className="detail-page__body">{parsedBody}</div>
+      {loading && <Loader />}
 
-      <DetailPageAction
-        onArchive={handleArchive}
-        onUnarchive={handleUnarchive}
-        onDelete={handleDelete}
-        {...note}
-      />
+      {!loading && !note && (
+        <NotFoundPage
+          message={"Catatan yang ingin ditampilkan tidak ditemukan"}
+        />
+      )}
+
+      {!loading && note && (
+        <>
+          <h3 className="detail-page__title">{note.title}</h3>
+
+          <p className="detail-page__createdAt">
+            {showFormattedDate(note.createdAt)}
+          </p>
+
+          <div className="detail-page__body">{parser(note.body)}</div>
+
+          <DetailPageAction
+            onArchive={handleArchive}
+            onUnarchive={handleUnarchive}
+            onDelete={handleDelete}
+            {...note}
+          />
+        </>
+      )}
     </section>
   );
 };

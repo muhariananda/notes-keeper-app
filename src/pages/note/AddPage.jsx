@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import AddNewPageInput from "./components/AddNewPageInput";
 import AddNewPageAction from "./components/AddNewPageAction";
 import { addNote } from "../../utils/network-data";
@@ -34,7 +33,7 @@ const AddPage = () => {
         inputBody={handleBodyChange}
       />
 
-      <AddNewPageAction addNote={handleAddNote} />
+      <AddNewPageAction addNote={() => handleAddNote()} />
     </section>
   );
 };
