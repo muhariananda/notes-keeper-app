@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useSearchParams } from "react-router-dom";
 import EmptyMessage from "../../components/EmptyMessage";
 import Loader from "../../components/Loader";
@@ -6,8 +6,12 @@ import SearchBar from "../../components/SearchBar";
 import NotesList from "../../components/NotesList";
 import HomePageAction from "./components/HomePageAction";
 import { getActiveNotes } from "../../utils/network-data";
+import LocalContext from "../../contexts/LocaleContext";
+import { note } from "../../utils/locale";
 
 const HomePage = () => {
+  const { locale } = useContext(LocalContext);
+
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -43,7 +47,7 @@ const HomePage = () => {
 
   return (
     <section className="homepage">
-      <h2>Catatan Aktif</h2>
+      <h2>{note[locale].active}</h2>
       <SearchBar keyword={keyword} keywordChange={handleKeywordChange} />
 
       {loading ? (
@@ -51,7 +55,7 @@ const HomePage = () => {
       ) : !isNotesEmpty ? (
         <NotesList notes={filteredNotes} />
       ) : (
-        <EmptyMessage message={"Tidak ada catatan"} />
+        <EmptyMessage message={note[locale].emptyNote} />
       )}
 
       <HomePageAction />

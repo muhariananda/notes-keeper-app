@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import AddNewPageInput from "./components/AddNewPageInput";
 import AddNewPageAction from "./components/AddNewPageAction";
 import { addNote } from "../../utils/network-data";
+import * as routePaths from "../../utils/routePaths";
 
 const AddPage = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const AddPage = () => {
 
   const handleAddNote = async () => {
     await addNote({ title, body });
-    navigate("/");
+    navigate(routePaths.HOME_PATH);
   };
 
   return (

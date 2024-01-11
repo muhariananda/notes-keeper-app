@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import parser from "html-react-parser";
 import { useParams, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
@@ -11,8 +11,13 @@ import {
   getNote,
   unarchiveNote,
 } from "../../utils/network-data";
+import LocalContext from "../../contexts/LocaleContext";
+import { page } from "../../utils/locale";
+import * as routePaths from "../../utils/routePaths";
 
 const DetailsPage = () => {
+  const { locale } = useContext(LocalContext);
+
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -36,17 +41,17 @@ const DetailsPage = () => {
 
   const handleDelete = async () => {
     await deleteNote(id);
-    navigate("/");
+    navigate(routePaths.HOME_PATH);
   };
 
   const handleArchive = async () => {
     await archiveNote(id);
-    navigate("/archives");
+    navigate(routePaths.ARCHIVES_PATH);
   };
 
   const handleUnarchive = async () => {
     await unarchiveNote(id);
-    navigate("/");
+    navigate(routePaths.HOME_PATH);
   };
 
   return (
@@ -54,9 +59,7 @@ const DetailsPage = () => {
       {loading && <Loader />}
 
       {!loading && !note && (
-        <NotFoundPage
-          message={"Catatan yang ingin ditampilkan tidak ditemukan"}
-        />
+        <NotFoundPage message={page[locale].noteNotFound} />
       )}
 
       {!loading && note && (

@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import useInput from "../hooks/useInput";
+import LocalContext from "../../../contexts/LocaleContext";
+import { auth } from "../../../utils/locale";
 
 const InputRegister = ({ register }) => {
+  const { locale } = useContext(LocalContext);
+
   const [name, handleNameChange] = useInput("");
   const [email, handleEmailChange] = useInput("");
   const [password, handlePasswordChange] = useInput("");
@@ -27,7 +31,7 @@ const InputRegister = ({ register }) => {
 
   return (
     <div className="input-register">
-      <label htmlFor="name">Name</label>
+      <label htmlFor="name">{auth[locale].nameLabel}</label>
       <input
         id="name"
         type="text"
@@ -36,7 +40,7 @@ const InputRegister = ({ register }) => {
         required
       />
 
-      <label htmlFor="email">Email</label>
+      <label htmlFor="email">{auth[locale].emailLabel}</label>
       <input
         id="email"
         type="email"
@@ -45,7 +49,7 @@ const InputRegister = ({ register }) => {
         required
       />
 
-      <label htmlFor="password">Password</label>
+      <label htmlFor="password">{auth[locale].passwordLabel}</label>
       <input
         id="password"
         type="password"
@@ -54,7 +58,9 @@ const InputRegister = ({ register }) => {
         required
       />
 
-      <label htmlFor="confirm-password">Confirm Password</label>
+      <label htmlFor="confirm-password">
+        {auth[locale].confirmPasswordLabel}
+      </label>
       <input
         id="confirm-password"
         type="password"
@@ -64,7 +70,7 @@ const InputRegister = ({ register }) => {
       />
 
       <button type="button" onClick={handleRegister}>
-        Register
+        {auth[locale].register}
       </button>
     </div>
   );

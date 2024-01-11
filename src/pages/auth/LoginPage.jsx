@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import InputLogin from "./components/InputLogin";
 import { login } from "../../utils/network-data";
+import LocalContext from "../../contexts/LocaleContext";
+import { auth } from "../../utils/locale";
+import * as routePaths from "../../utils/routePaths";
 
 const LoginPage = ({ loginSuccess }) => {
+  const { locale } = useContext(LocalContext);
+
   const onLogin = async ({ email, password }) => {
     try {
       const { data } = await login({ email, password });
@@ -16,10 +21,11 @@ const LoginPage = ({ loginSuccess }) => {
 
   return (
     <section className="login-page">
-      <h2>Selamat datang kembali, silahkan login untuk melanjutkan</h2>
+      <h2>{auth[locale].loginTitle}</h2>
       <InputLogin login={onLogin} />
       <p>
-        Belum punya akun? <Link to="/register"> Daftar disni</Link>
+        {auth[locale].loginText}{" "}
+        <Link to={routePaths.REGISTER_PATH}>{auth[locale].loginAction}</Link>
       </p>
     </section>
   );

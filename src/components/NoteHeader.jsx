@@ -1,17 +1,30 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { MdLogout, MdDarkMode, MdLightMode } from "react-icons/md";
+import {
+  MdLogout,
+  MdDarkMode,
+  MdLightMode,
+  MdGTranslate,
+} from "react-icons/md";
 import ThemeContext from "../contexts/ThemeContext";
+import LocalContext from "../contexts/LocaleContext";
+import { header } from "../utils/locale";
 
-const Navigation = () => (
+const Navigation = ({ locale }) => (
   <nav className="navigation">
     <ul>
       <li>
-        <Link to="/archives">Arsip</Link>
+        <Link to="/archives">{header[locale].archive}</Link>
       </li>
     </ul>
   </nav>
+);
+
+const LocaleToggle = ({ toggleLocale }) => (
+  <button className="toggle-locale" type="button" onClick={toggleLocale}>
+    <MdGTranslate />
+  </button>
 );
 
 const ThemeToggle = ({ theme, toggleTheme }) => (
@@ -28,14 +41,20 @@ const LogoutButton = ({ username, logout }) => (
 
 const NoteHeader = ({ authedUser, logout }) => {
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const { locale, toggleLocale } = useContext(LocalContext);
 
   return (
     <header>
       <h1>
-        <Link to="/">Aplikasi Catatan</Link>
+        <Link to="/">{header[locale].title}</Link>
       </h1>
-      {authedUser && <Navigation />}
-      {authedUser && <ThemeToggle theme={theme} toggleTheme={toggleTheme} />}
+
+      {authedUser && <Navigation locale={locale} />}
+
+      <LocaleToggle toggleLocale={toggleLocale} />
+
+      <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+
       {authedUser && (
         <LogoutButton username={authedUser.name} logout={logout} />
       )}

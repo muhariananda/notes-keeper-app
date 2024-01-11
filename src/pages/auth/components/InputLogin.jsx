@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import useInput from "../hooks/useInput";
+import { auth } from "../../../utils/locale";
+import LocaleContext from "../../../contexts/LocaleContext";
 
 const InputLogin = ({ login }) => {
+  const { locale } = useContext(LocaleContext);
+  
   const [email, handleEmailChange] = useInput("");
   const [password, handlePasswordChange] = useInput("");
 
@@ -10,7 +14,7 @@ const InputLogin = ({ login }) => {
 
   return (
     <div className="input-login">
-      <label htmlFor="email">Email</label>
+      <label htmlFor="email">{auth[locale].emailLabel}</label>
       <input
         type="email"
         id="email"
@@ -19,7 +23,7 @@ const InputLogin = ({ login }) => {
         required
       />
 
-      <label htmlFor="password">Password</label>
+      <label htmlFor="password">{auth[locale].passwordLabel}</label>
       <input
         type="password"
         id="password"
@@ -29,7 +33,7 @@ const InputLogin = ({ login }) => {
       />
 
       <button type="button" onClick={handleLogin}>
-        Login
+        {auth[locale].login}
       </button>
     </div>
   );

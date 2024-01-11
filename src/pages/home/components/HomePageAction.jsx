@@ -1,12 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { MdAdd } from "react-icons/md";
+import * as routePaths from "../../../utils/routePaths";
 
 const HomePageAction = () => {
   const navigate = useNavigate();
 
   const handleAddNote = () => {
-    navigate("/notes/new");
+    navigate(routePaths.ADD_NOTE_PATH);
   };
 
   return (

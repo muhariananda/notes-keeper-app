@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import Loader from "../../components/Loader";
@@ -6,8 +6,12 @@ import SearchBar from "../../components/SearchBar";
 import NotesList from "../../components/NotesList";
 import EmptyMessage from "../../components/EmptyMessage";
 import { getArchivedNotes } from "../../utils/network-data";
+import LocalContext from "../../contexts/LocaleContext";
+import { note } from "../../utils/locale";
 
 const ArchivesPage = () => {
+  const { locale } = useContext(LocalContext);
+
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -43,7 +47,7 @@ const ArchivesPage = () => {
 
   return (
     <section className="archives-page">
-      <h2>Catatan Arsip</h2>
+      <h2>{note[locale].archive}</h2>
       <SearchBar keyword={keyword} keywordChange={handleKeywordChange} />
 
       {loading ? (
@@ -51,7 +55,7 @@ const ArchivesPage = () => {
       ) : !isNotesEmpty ? (
         <NotesList notes={filteredNotes} />
       ) : (
-        <EmptyMessage message={"Arsip kosong"} />
+        <EmptyMessage message={note[locale].emptyArchive} />
       )}
     </section>
   );
